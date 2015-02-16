@@ -47,6 +47,10 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
+#add fields to auth
+auth.settings.extra_fields['auth_user'] = [
+    Field('professor', 'boolean')]
+
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)
 

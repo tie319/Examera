@@ -2,15 +2,25 @@ import test
 
 def index():
     if auth.user:
-        response.flash = T("Logged in")
+        name = auth.user.first_name
+        response.flash = T("Logged in as %s"%(name))
     else:
-        response.flash = T("Not logged in")
         redirect(URL('default', 'login'))
     return dict()
 
+#login page
 def login():
-    response.flash = T("Log in")
-    return dict()
+    response.flash = T("Login Page")
+    form = auth.login()
+    register_button = A('Register', _class='btn', _href=URL('default', 'register'))
+    return dict(form=form, register_button=register_button)
+
+#register page
+def register():
+    response.flash = T("Register Page")
+    form=auth.register()
+    back_button = A('Back', _class='btn', _href=URL('default', 'login'))
+    return dict(form=form, back_button=back_button)
 
 def user():
     """
