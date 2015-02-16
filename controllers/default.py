@@ -6,7 +6,11 @@ def index():
     else:
         response.flash = T("Not logged in")
         redirect(URL('default', 'login'))
-    return dict(new_button=new_button)
+    return dict()
+
+def login():
+    response.flash = T("Log in")
+    return dict()
 
 def user():
     """
