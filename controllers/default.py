@@ -26,6 +26,61 @@ def create_test():
     return dict()
 
 
+def create_class():
+        # used for testing. deletes all data from tables
+    #db.classes.drop()
+    form = SQLFORM.factory(
+                        Field('class_name', requires=IS_NOT_EMPTY()),
+                        Field('description', 'text', requires=IS_NOT_EMPTY()),
+                        Field('start_date', 'date',requires=IS_NOT_EMPTY()),
+                        Field('end_date', 'date',requires=IS_NOT_EMPTY()),
+                        Field('teacher_emails', 'list:string',requires=IS_EMAIL()),
+                        Field('student_emails', 'list:string',requires=IS_EMAIL())
+                        
+                        )
+
+
+    #form.add_button('Cancel', URL('default', 'index', args=[title]))
+
+    if form.process().accepted:
+        class_id = db.classes.insert(name=form.vars.class_name, info=form.vars.description,
+                    start_date=form.vars.start_date, end_date=form.vars.end_date,
+                    teachers=form.vars.teacher_emails, students=form.vars.student_emails)
+        
+        redirect(URL('default', 'view_class', args=[class_id]))
+
+
+
+
+    return dict(form=form)
+
+
+def browse_classes():
+    return dict()
+
+
+
+@auth.requires_login()
+def view_class():
+    """
+    if user == teacher_emails
+    info
+    Tests
+    students
+
+    add/drop students
+    create test
+
+    """
+
+    clase = db(db.classes.id==request.args(0)).select().first()
+
+   # if cclass.contains(auth.user.email):
+    #    return dict(form=cclass.info) 
+
+    return dict(form = clase)
+
+
 def test_list():
     """
     List of Tests

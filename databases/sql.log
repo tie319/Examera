@@ -1,0 +1,125 @@
+timestamp: 2015-03-08T17:43:38.653070
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512),
+    professor CHAR(1)
+);
+success!
+timestamp: 2015-03-08T17:43:38.657712
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2015-03-08T17:43:38.661560
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2015-03-08T17:43:38.665214
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2015-03-08T17:43:38.668571
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2015-03-08T17:43:38.672143
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2015-03-08T17:52:12.772972
+CREATE TABLE classes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    c_id INTEGER,
+    name TEXT,
+    info TEXT,
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    teachers TEXT,
+    students TEXT,
+    test_ids TEXT,
+    class_avg DOUBLE
+);
+success!
+success!
+success!
+timestamp: 2015-03-08T20:36:33.724235
+CREATE TABLE students(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    c_id INTEGER,
+    name CHAR(512),
+    info CHAR(512),
+    start_date DATE,
+    end_date DATE,
+    teachers TEXT,
+    students TEXT,
+    test_ids TEXT,
+    class_avg DOUBLE
+);
+success!
+timestamp: 2015-03-08T21:24:30.161195
+ALTER TABLE classes ADD grades BLOB;
+success!
+success!
+success!
+DROP TABLE classes;
+success!
+timestamp: 2015-03-08T21:50:29.253696
+CREATE TABLE classes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    c_id INTEGER,
+    name CHAR(512),
+    info CHAR(512),
+    start_date DATE,
+    end_date DATE,
+    teachers TEXT,
+    students TEXT,
+    test_ids TEXT,
+    class_avg DOUBLE,
+    grades BLOB
+);
+success!
+DROP TABLE classes;
+success!
+timestamp: 2015-03-08T21:50:48.551435
+CREATE TABLE classes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    c_id INTEGER,
+    name CHAR(512),
+    info CHAR(512),
+    start_date DATE,
+    end_date DATE,
+    teachers TEXT,
+    students TEXT,
+    test_ids TEXT,
+    class_avg DOUBLE,
+    grades BLOB
+);
+success!
