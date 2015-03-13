@@ -1,2 +1,4 @@
 databases/
 databases/storage.sqlite
+sessions/
+errors/
