@@ -30,22 +30,22 @@ $(document).ready(function () {
 
         newQuestion.appendTo(wrapper);
 
-        initRemoveButtons();
+        initRemoveButtons(newQuestion);
 
     });
 
-    initRemoveButtons();
+    initRemoveButtons($('#questions_table_0'));
 
 });
-function initRemoveButtons() {
-    var qTable = $('#questions_table_' + qidNumber);
-    var thisRemoveButton = qTable.find('.remove_question');
-        thisRemoveButton.click(function () {
+function initRemoveButtons(newQuestion) {
+
+
+        newQuestion.find('.remove_question').click(function () {
             var wrapper = $('#questions_wrapper');
             //var me = $(this);
             if (wrapper.children().length > 1) {
                 qidNumber--;
-                qTable.closest('.questions_table').remove();
+                $(this).closest('.questions_table').remove();
             }
             else{
                 //flash need one q
