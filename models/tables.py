@@ -18,3 +18,8 @@ db.define_table('classes',
 
     )
 
+db.define_table('tests',
+                Field('name'),
+                Field('info'),
+                Field('questions', 'blob')
+                )

@@ -2,6 +2,7 @@ import test
 
 
 def index():
+    #db.auth_user.drop()
     if auth.user:
         name = auth.user.first_name
         response.flash = T("Logged in as %s"%(name))
@@ -21,9 +22,15 @@ def create_test():
     :return:
     """
 
+    questions = {}
+
+    form = SQLFORM.factory(
+        Field('name', requires=IS_NOT_EMPTY()),
+        Field('info', requires=IS_NOT_EMPTY()),
+    )
 
 
-    return dict()
+    return dict(form=form, questions=questions)
 
 
 def create_class():

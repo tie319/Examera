@@ -1,3 +1,9 @@
+{{response.files.append(URL(r=request,c='static/js',f='create_test.js'))}}
+{{response.files.append(URL('http://code.jquery.com/jquery-1.11.2.min.js'))}}
+{{response.files.append(URL(r=request,c='static/js',f='jquery.js'))}}
+
+
+
 {{extend 'layout.html'}}
 <!DOCTYPE html>
 <html>
@@ -6,6 +12,7 @@
     <title>
         Examera - Create A Test
     </title>
+
 </head>
 <body>
 {{block body}}
@@ -13,6 +20,124 @@
     Create A Test
 </h1>
 
+<form method="post" enctype="multipart/form-data" action="#">
+    <table>
+        <tbody>
+        <tr id="test_name">
+            <td class="w2p_fl">
+
+                <label id="test_name__label" for="test_name">
+
+                    Test Name:
+
+                </label>
+
+            </td>
+            <td class="w2p_fw">
+
+                <input id="test_name" class="string" type="text" value="" name="name"/>
+
+            </td>
+        </tr>
+        <tr id="test_info">
+            <td class="w2p_fl">
+
+                <label id="test_info__label" for="test_info">
+
+                    Test Info:
+
+                </label>
+
+            </td>
+            <td class="w2p_fw">
+
+                <textarea id="test_info" class="text" rows="5" cols="60" value="" name="info"></textarea>
+
+            </td>
+        </tr>
+        <tr id="test_questions">
+            <td class="w2p_fl">
+
+
+                Questions:
+
+
+            </td>
+            <td id="questions_wrapper">
+                <table id="questions_table_0" class="question_table" style="background: #eef5fc; margin: 10px">
+                    <tr class="question_text_row">
+                        <td class="w2p_fl question_text_label" style="padding: 10px;">
+                            Question:
+                        </td>
+                        <td class="w2p_fw question_text" style="padding: 10px;">
+                            <textarea class="text" value="" rows="3" cols="46" name="text"></textarea>
+                        </td>
+                    </tr>
+                    <tr class="answer_a_row">
+                        <td class="w2p_fl answer_a_label" style="padding: 10px;">
+                            Answer A:
+                        </td>
+                        <td class="w2p_fw answer_a" style="padding: 10px;">
+                            <input class="string" type="text" value="" name="text"/>
+                        </td>
+                    </tr>
+                    <tr class="answer_b_row">
+                        <td class="w2p_fl answer_b_label" style="padding: 10px;">
+                            Answer B:
+                        </td>
+                        <td class="w2p_fw answer_b" style="padding: 10px;">
+                            <input class="string" type="text" value="" name="text"/>
+                        </td>
+                    </tr>
+                    <tr class="answer_c_row">
+                        <td class="w2p_fl answer_c_label" style="padding: 10px;">
+                            Answer C:
+                        </td>
+                        <td class="w2p_fw answer_c" style="padding: 10px;">
+                            <input class="string" type="text" value="" name="text"/>
+                        </td>
+                    </tr>
+                    <tr class="answer_d_row">
+                        <td class="w2p_fl answer_d_label" style="padding: 10px;">
+                            Answer D:
+                        </td>
+                        <td class="w2p_fw answer_d" style="padding: 10px;">
+                            <input class="string" type="text" value="" name="text"/>
+                        </td>
+                    </tr>
+                    <tr class="correct_answer_row">
+                        <td class="w2p_fl correct_answer_label" style="padding: 10px;">
+                            Correct Answer:
+                        </td>
+                        <td class="w2p_fw correct_answer" style="padding: 10px;">
+                            <select>
+                                <option value="a">Answer A</option>
+                                <option value="b">Answer B</option>
+                                <option value="c">Answer C</option>
+                                <option value="d">Answer D</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="remove_row">
+                        <td class="w2p_fl" style="padding: 10px;">
+                        </td>
+                        <td class="w2p_fw correct_answer" style="padding: 10px;">
+                            <button class="remove_question" type="button">
+                                Remove this question
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <button id="add_question" class="btn" type="button">
+            New Question
+        </button>
+    </p>
+</form>
 
 
 </body>
