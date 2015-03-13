@@ -123,3 +123,12 @@ CREATE TABLE classes(
     grades BLOB
 );
 success!
+timestamp: 2015-03-12T23:07:14.779000
+CREATE TABLE tests(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    info CHAR(512),
+    questions BLOB
+);
+success!
+success!
