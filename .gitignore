@@ -1,4 +1,5 @@
 databases/
+databases/sql.log
 databases/storage.sqlite
 sessions/
 errors/
