@@ -89,11 +89,19 @@ def view_class():
     show_all = request.args(0) == 'all'
     if show_all:
         # view all classes
-        clase = db(db.classes).select()
+        clase = SQLFORM.grid(db.classes,
+                             user_signature=False, deletable=False, csv=False, editable=False,
+                             details=False, create=False, searchable=False, sortable=False,
+                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
         display_button = A('See My Classes', _class='btn', _href=('default', 'view_class'))
     else:
         # view only my enrolled classes
-        clase = db(db.classes.students.like("%"+auth.user.email+"%")).select()
+        clase = SQLFORM.grid(db.classes.students.like("%"+auth.user.email+"%"),
+                             user_signature=False, deletable=False, csv=False, editable=False,
+                             details=False, create=False, searchable=False, sortable=False,
+                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
         display_button = A('See all', _class='btn', _href=URL('default', 'view_class', args=['all']))
 
     return dict(form = clase, display_button = display_button, home_button=home_button)
