@@ -1,9 +1,10 @@
 /**
  * Created by Westron on 3/9/2015.
  */
-    
+
 var $;
 var questionWrapper;
+var url;
 function init() {
     $ = jQuery.noConflict();
 }
@@ -25,20 +26,20 @@ $(document).ready(function () {
 
 
 function initRemoveButtons() {
-        var newQuestion = questionWrapper.children().last();
+    var newQuestion = questionWrapper.children().last();
 
-        newQuestion.find('.remove_question_button').click(function () {
-            //var me = $(this);
-            if (questionWrapper.children().length > 1) {
-                $(this).closest('.questions_table').remove();
-            }
-            else{
-                $('.flash').html('Test needs at least one question').slideDown().delay(2800).fadeOut();
-            }
-        });
+    newQuestion.find('.remove_question_button').click(function () {
+        //var me = $(this);
+        if (questionWrapper.children().length > 1) {
+            $(this).closest('.questions_table').remove();
+        }
+        else {
+            $('.flash').html('Test needs at least one question').slideDown().delay(2800).fadeOut();
+        }
+    });
 }
 
-function initAddButton(){
+function initAddButton() {
     $('#add_question_button').click(function () {
 
         var newQuestion = questionWrapper.children().first().clone();
@@ -50,7 +51,7 @@ function initAddButton(){
     });
 }
 
-function initSubmitButton(){
+function initSubmitButton() {
     $('#submit_test_button').click(function () {
 
         var testName = $('#test_name_input').val();
@@ -59,7 +60,7 @@ function initSubmitButton(){
 
         var questionsArray = [];
 
-        questionWrapper.children().each(function packTest(){
+        questionWrapper.children().each(function packTest() {
             var questionElement = $(this);
             var question = {};
             question.question_text = questionElement.find(".question_text textarea").val();
@@ -85,15 +86,55 @@ function initSubmitButton(){
 
 function postTest(testObject) {
 
- var data = $.toJSON(testObject);
- var url = "{{=URL('default', 'new_test')}}";
+    //var data = $.toJSON(testObject);
+    var data = JSON.stringify(testObject);
 
- doPost(url, data);
+    var url = "/Examera/default/new_test";
+
+    doPost(url, data);
 }
 
 
-function doPost(callback, data) {
- $.post(callback, data, function(data){})
- .done(function() { alert("Done!"); })
- .fail(function() { alert("Failed!");})
+function doPost(url, data) {
+    $.post(url, data, function (data) {
+        //alert("Test Added!");
+        var dialogger =$("#dialog");
+
+            dialogger.dialog(
+            {
+                buttons: [{
+                    text: "Ok", class: 'dialog_button', click: function () {
+                        $(this).dialog("close");
+                        window.location.replace("/Examera/default/index");
+                    }
+                },
+                {
+                    text: "Stay Here", class: 'dialog_button', click: function () {
+                        $(this).dialog("close");
+                    }
+                }]
+            }
+        );
+
+    }).error(function (xhr, status, error) {
+        alert("Failed!\n" + error);
+    });
+
+    //$.ajax({
+    //        url: url,
+    //        method: "POST",
+    //        data: data,
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function () {
+    //            alert("Success!");
+    //        },
+    //        error: function (xhr, status, error) {
+    //            //var err = eval("(" + xhr.responseText + ")");
+    //            var d = 4;
+    //            alert(error);
+    //            alert(d);
+    //        }
+    //    }
+    //)
 }

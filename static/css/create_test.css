@@ -3,19 +3,30 @@
 }
 
 .questions_table{
-    background: #eef5fc;
+    background: #e9f0f7;
     margin-left: 10px;
     margin-top: 0px;
 }
 
 #submit_test_button{
     display: inline-block;
-    margin-left: 272px;
+    margin-left: 374px;
 }
 #add_question_button{
-    margin-left: 90px;
+    margin-left: 95px;
 }
 
 .large_field{
     margin-left: 10px;
+}
+.dialog_button{
+    display: inline-block;
+}
+
+.ui-dialog-titlebar-close{
+    display: none;
+}
+
+.ui-widget-content{
+    background: #f4f9fc;
 }

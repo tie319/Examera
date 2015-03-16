@@ -1,5 +1,5 @@
 import test
-
+import json
 
 def index():
     #db.auth_user.drop()
@@ -34,12 +34,10 @@ def create_test():
 
 
 def new_test():
-    form = SQLFORM(db.post)
-    if form.accepts(request, formname=None):
-        return DIV("Message posted")
-    elif form.errors:
-        return TABLE(*[TR(k, v) for k, v in form.errors.items()])
+    import pdb
+    data = request.post_vars
 
+    return dict(data=data)
 
 def create_class():
         # used for testing. deletes all data from tables
