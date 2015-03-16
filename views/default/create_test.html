@@ -1,6 +1,6 @@
 
 {{response.files.append(URL(r=request,c='static/js',f='create_test.js'))}}
-{{response.files.append(URL('http://code.jquery.com/jquery-1.11.2.min.js'))}}
+{{#response.files.append(URL('http://code.jquery.com/jquery-1.11.2.min.js'))}}
 {{response.files.append(URL(r=request,c='static/js',f='jquery.js'))}}
 {{response.files.append(URL('static','css/create_test.css'))}}
 
@@ -37,7 +37,7 @@
             </td>
             <td class="w2p_fw">
 
-                <input id="test_name" class="string" type="text" value="" name="name"/>
+                <input id="test_name_input" class="string large_field" type="text" value="" name="name"/>
 
             </td>
         </tr>
@@ -53,7 +53,7 @@
             </td>
             <td class="w2p_fw">
 
-                <textarea id="test_info" class="text" rows="5" cols="60" value="" name="info"></textarea>
+                <textarea id="test_info_input" class="text large_field" rows="5" cols="60" value="" name="info"></textarea>
 
             </td>
         </tr>
@@ -124,7 +124,7 @@
                         <td class="question_field">
                         </td>
                         <td class="remove_row question_field">
-                            <button class="remove_question" type="button">
+                            <button class="remove_question_button" type="button">
                                 Remove this question
                             </button>
                         </td>
@@ -135,8 +135,12 @@
         </tbody>
     </table>
     <p>
-        <button id="add_question" class="btn" type="button">
+        <button id="add_question_button" class="btn" type="button">
             New Question
+        </button>
+
+        <button id="submit_test_button" class="btn" type="button">
+            Submit Test
         </button>
     </p>
 </form>

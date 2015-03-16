@@ -33,6 +33,14 @@ def create_test():
     return dict(form=form, questions=questions)
 
 
+def new_test():
+    form = SQLFORM(db.post)
+    if form.accepts(request, formname=None):
+        return DIV("Message posted")
+    elif form.errors:
+        return TABLE(*[TR(k, v) for k, v in form.errors.items()])
+
+
 def create_class():
         # used for testing. deletes all data from tables
     #db.classes.drop()
