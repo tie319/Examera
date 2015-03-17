@@ -31,7 +31,23 @@ function initRemoveButtons() {
     newQuestion.find('.remove_question_button').click(function () {
         //var me = $(this);
         if (questionWrapper.children().length > 1) {
-            $(this).closest('.questions_table').remove();
+            var dialogger =$("#dialog2");
+            var $thisButton = $(this);
+            dialogger.dialog(
+            {
+                buttons: [{
+                    text: "Yes", class: 'dialog_button', click: function () {
+                        $(this).dialog("close");
+                        $thisButton.closest('.questions_table').remove();
+                    }
+                },
+                {
+                    text: "No", class: 'dialog_button', click: function () {
+                        $(this).dialog("close");
+                    }
+                }]
+            }
+        );
         }
         else {
             $('.flash').html('Test needs at least one question').slideDown().delay(2800).fadeOut();
@@ -52,8 +68,8 @@ function initAddButton() {
 }
 
 function initSubmitButton() {
-    $('#submit_test_button').click(function () {
-
+    $('#submit_test_button').click(function (e) {
+        e.preventDefault();
         var testName = $('#test_name_input').val();
 
         var testInfo = $('#test_info_input').val();
@@ -96,8 +112,7 @@ function postTest(testObject) {
 
 
 function doPost(url, data) {
-    $.post(url, data, function (data) {
-        //alert("Test Added!");
+    $.post(url, data, function (postBack) {
         var dialogger =$("#dialog");
 
             dialogger.dialog(
