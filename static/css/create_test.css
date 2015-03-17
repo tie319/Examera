@@ -41,3 +41,11 @@ body{
 .ui-accordion-header:hover{
     cursor: default;
 }
+
+.test_definitions{
+    background: #e9f0f7;
+    margin-top: 0px;
+    margin-left: 110px;
+    margin-right: 100px;
+    text-align: center;
+}
