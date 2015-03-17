@@ -1,0 +1,7 @@
+databases/
+databases/sql.log
+databases/storage.sqlite
+sessions/
+errors/
+static/images/Thumbs.db
+dg

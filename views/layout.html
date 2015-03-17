@@ -32,8 +32,8 @@
         user-scalable = yes allows the user to zoom in -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
-  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+  <link rel="shortcut icon" href="{{=URL('static','images/exicon.ico')}}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{{=URL('static','images/exicon.png')}}">
 
   <!-- All JavaScript at the bottom, except for Modernizr which enables
        HTML5 elements & feature detects -->
@@ -57,10 +57,12 @@
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
   }}
 
-  <!-- uncomment here to load jquery-ui
-       <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+
+      <!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
-       uncomment to load jquery-ui //-->
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js" type="text/javascript"></script>
+        -->
+
   <noscript><link href="{{=URL('static', 'css/web2py_bootstrap_nojs.css')}}" rel="stylesheet" type="text/css" /></noscript>
   {{block head}}{{end}}
 </head>
