@@ -1,3 +1,7 @@
+body{
+    background-image: url('../images/concrete_seamless.png');
+}
+
 .question_field{
     padding: 10px;
 }
