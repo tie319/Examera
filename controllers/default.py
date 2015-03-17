@@ -69,7 +69,7 @@ def test_page():
     selected_class = db(db.classes.id == class_id).select().first()
     test_name_list = selected_class.test_names
     test_id_list = selected_class.test_ids
-    return dict(test_name_list=test_name_list, test_id_list=test_id_list)
+    return dict(test_name_list=test_name_list, test_id_list=test_id_list, class_id=class_id)
 
 @auth.requires_login()
 def create_test():
@@ -128,15 +128,10 @@ def new_test():
 
 
 def take_test():
-    # creator = "schfiftysix@yahoo.com"
-    # name = "This is a test"
-    # query = db.tests.id > 0
-    # query &= db.tests.creator == creator
-    # query &= db.tests.name == name
 
-    class_id = 5
+    class_id = request.args(1)
 
-    query = db.tests.id == 3
+    query = db.tests.id == request.args(0)
 
     old_tests = db(query).count()
 

@@ -634,35 +634,3 @@ success!
 success!
 success!
 success!
-success!
-success!
-timestamp: 2015-03-17T13:15:51.115000
-CREATE TABLE test_submissions(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    test_taker CHAR(512),
-    class_id CHAR(512),
-    test_id CHAR(512),
-    answers TEXT,
-    grade DOUBLE
-);
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
