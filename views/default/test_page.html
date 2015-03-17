@@ -15,25 +15,37 @@
 
 <!--Nav Bar-->
     <ul class="nav nav-tabs ui-corner-all" role="navigation">
-      <li><a href="index">View Classes</a></li>
-        <li class="active"><a href="test_list">View Tests</a></li>
-      <li><a href="create_test">Create A Test</a></li>
-      <li><a href="create_class">Create A Class</a></li>
+      <li><a href="../index">View Classes</a></li>
+      <li><a href="../test_list">View Tests</a></li>
+      <li><a href="../create_test">Create A Test</a></li>
+      <li><a href="../create_class">Create A Class</a></li>
     </ul>
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>
-        Examera - Test List
-    </title>
+    <title></title>
 </head>
 <body>
 <div class="ui-accordion ui-widget ui-helper-reset">
     <h1 style="text-align: center;margin-bottom:0px" class="ui-accordion-header ui-state-default ui-corner-top">
-        <span style="margin-right:50px;font-family:Helvetica">View All Tests</span>
+        <span style="margin-right:50px;font-family:Helvetica">Select a Test to Take</span>
     </h1>
-    <form method="post" style="padding-left:100px" class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data" action="#">
-        {{=form}}
+    <form method="post" class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data" action="#">
+        {{if test_id_list or test_name_list is IS_NOT_EMPTY:}}
+            {{for (test_name, test_id) in zip(test_name_list, test_id_list):}}
+            <div class="col-sm-6 col-md-3">
+                <div class="thumbnail tile tile-medium tile-orange">
+                    <a href="../take_test/{{=test_id}}" >
+                        <h2>
+                        {{=test_name}}
+                        </h2>
+                    </a>
+                </div>
+            </div>
+            {{pass}}
+        {{else:}}
+            No Tests Available for This Class.
+        {{pass}}
     </form>
 </div>
 </body>

@@ -619,3 +619,18 @@ success!
 success!
 success!
 success!
+success!
+timestamp: 2015-03-17T10:42:47.015000
+ALTER TABLE classes ADD test_names TEXT;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
