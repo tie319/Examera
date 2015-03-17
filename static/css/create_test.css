@@ -45,7 +45,8 @@ body{
 .test_definitions{
     background: #e9f0f7;
     margin-top: 0px;
-    margin-left: 110px;
-    margin-right: 100px;
+    margin-left: 60px;
+    margin-right: 50px;
+    padding: 20px;
     text-align: center;
 }
