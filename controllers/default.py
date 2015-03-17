@@ -21,6 +21,10 @@ def index():
             class_name = request.args(2)
             response.flash = T(str(test_name + ' was added to ' + class_name))
 
+        #db.test_submissions.insert(test_taker='tmarshik@gmail.com', class_id=5,
+         #           test_id=1, answers=['one', 'two'],
+          #          grade=.90)
+
         show_all = request.args(0) == 'all'
         if show_all:
             # view all classes
@@ -38,7 +42,7 @@ def index():
                 b = A('Edit', _class='btn', _href=URL('default', 'edit_class', args=[row.id]))
                 return b
             def take_test_button(row):
-                b = A('Take a Test', _class='btn', _href=URL('default', 'test_page', args=[row.id]))
+                b = A('Tests', _class='btn', _href=URL('default', 'test_page', args=[row.id]))
                 return b
             links = [dict(header='', body=edit_button)]
             links_student = [dict(header='', body=take_test_button)]
@@ -69,7 +73,20 @@ def test_page():
     selected_class = db(db.classes.id == class_id).select().first()
     test_name_list = selected_class.test_names
     test_id_list = selected_class.test_ids
-    return dict(test_name_list=test_name_list, test_id_list=test_id_list, class_id=class_id)
+    class_name = selected_class.name
+    query = db.test_submissions.test_taker == auth.user.email
+    query &= db.test_submissions.class_id == class_id
+    scores = db(query).select()
+    scores_list = []
+    for test_id in test_id_list:
+        this_score = 0.0
+        for score in scores:
+            if test_id == int(score.test_id):
+                if score.grade > this_score:
+                    this_score = score.grade
+        scores_list.append(this_score*100)
+
+    return dict(test_name_list=test_name_list, test_id_list=test_id_list, class_id=class_id, class_name=class_name, scores_list=scores_list)
 
 @auth.requires_login()
 def create_test():
@@ -207,7 +224,7 @@ def grade_sub(sub_id, test_id):
         if sub.answers[i] == correct_list[i]:
             total_correct += 1
 
-    grade = float(total_correct/num_ques)
+    grade = float(total_correct)/float(num_ques)
     sub.update_record(grade=grade)
     return
 
