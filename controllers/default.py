@@ -19,7 +19,7 @@ def index():
         if add:
             test_name = request.args(1)
             class_name = request.args(2)
-            response.flash = T(str(class_name + ' was added to ' + test_name))
+            response.flash = T(str(test_name + ' was added to ' + class_name))
 
         show_all = request.args(0) == 'all'
         if show_all:
@@ -251,17 +251,25 @@ def test_list():
         b = A('Add Test to Class', _class='btn', _href=URL('default', 'add_test_to_class', args=[row.id, row.name]))
         return b
     def edit_button(row):
-        b = A('Edit Test', _class='btn', _href=URL('default', 'edit_class', args=[row.id], user_signature=True))
+        b = A('Edit Test', _class='btn', _href=URL('default', 'edit_test', args=[row.id]))
         return b
     links = [dict(header='', body=add_test_button),
              dict(header='', body=edit_button)]
     form = SQLFORM.grid(db.tests.creator == auth.user.email,
                         user_signature=False, csv=False, editable=False,
-                        details=False, create=False, sortable=False,
+                        details=False, create=False, searchable=False, sortable=False,
                         links=links,
                         fields=[db.tests.name])
     form.element('.web2py_counter',replace=None)
     return dict(form=form)
+
+def edit_test():
+    test_id = request.args(0)
+    mytest = db(db.tests.id == test_id).select().first()
+    test_name = mytest.name
+    test_unparsed = mytest.test_data
+    test_data = ast.literal_eval(test_unparsed)
+    return dict(test_data=test_data, test_name=test_name)
 
 def add_test_to_class():
     test_id = request.args(0)
@@ -276,7 +284,7 @@ def add_test_to_class():
                                  links=links,
                                  fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
                                          db.classes.students, db.classes.test_names, db.classes.test_ids])
-    classes_taught.element('.web2py_counter',replace=None)
+    classes_taught.element('.web2py_counter', replace=None)
     return dict(classes_taught=classes_taught)
 
 def backend_add_test():
