@@ -58,7 +58,9 @@ function initRemoveButtons() {
 function initAddButton() {
     $('#add_question_button').click(function () {
 
-        var newQuestion = questionWrapper.children().first().clone();
+        //var newQuestion = questionWrapper.children().first().clone();
+
+        var newQuestion = $("#question_template").children().first().clone();
 
         newQuestion.appendTo(questionWrapper);
 

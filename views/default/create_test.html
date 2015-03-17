@@ -31,6 +31,74 @@
 </head>
 <body>
 {{block body}}
+
+<div id="question_template" hidden="true">
+    <table id="questions_table_0" class="questions_table ui-corner-all">
+                        <tr class="question_text_row">
+                            <td class="question_field question_text_label">
+                                Question:
+                            </td>
+                            <td class="question_field question_text">
+                                <textarea class="text" value="" rows="3" cols="46" name="text"></textarea>
+                            </td>
+                        </tr>
+                        <tr class="answer_a_row">
+                            <td class="question_field answer_a_label">
+                                Answer A:
+                            </td>
+                            <td class="answer_a question_field">
+                                <input class="string" type="text" value="" name="text"/>
+                            </td>
+                        </tr>
+                        <tr class="answer_b_row">
+                            <td class="answer_b_label question_field">
+                                Answer B:
+                            </td>
+                            <td class="answer_b question_field">
+                                <input class="string" type="text" value="" name="text"/>
+                            </td>
+                        </tr>
+                        <tr class="answer_c_row">
+                            <td class="answer_c_label question_field">
+                                Answer C:
+                            </td>
+                            <td class="answer_c question_field">
+                                <input class="string" type="text" value="" name="text"/>
+                            </td>
+                        </tr>
+                        <tr class="answer_d_row">
+                            <td class="answer_d_label question_field">
+                                Answer D:
+                            </td>
+                            <td class="answer_d question_field">
+                                <input class="string" type="text" value="" name="text"/>
+                            </td>
+                        </tr>
+                        <tr class="correct_answer_row">
+                            <td class="correct_answer_label question_field">
+                                Correct Answer:
+                            </td>
+                            <td class="correct_answer question_field">
+                                <select>
+                                    <option value="a">Answer A</option>
+                                    <option value="b">Answer B</option>
+                                    <option value="c">Answer C</option>
+                                    <option value="d">Answer D</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="remove_row">
+                            <td class="question_field">
+                            </td>
+                            <td class="remove_row question_field">
+                                <button class="remove_question_button" type="button">
+                                    Remove question
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+</div>
+
 <div id="dialog" title="Test submitted!" hidden="true">
     <span class="ui-helper-hidden-accessible"><input type="text"/></span>
     Return to index?
@@ -41,11 +109,7 @@
 </div>
 
 <div class="ui-accordion ui-widget ui-helper-reset">
-    <h2>
-        <a href="{{=URL('default', 'index')}}">
-            Home
-        </a>
-    </h2>
+
     <h1 style="text-align: center;margin-bottom:0px" class="ui-accordion-header ui-state-default ui-corner-top">
         <span style="margin-right:50px;font-family:Helvetica">Create A Test</span>
     </h1>
