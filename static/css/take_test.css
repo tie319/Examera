@@ -1,0 +1,49 @@
+body{
+    background-image: url('../images/concrete_seamless.png');
+}
+
+.question_field{
+    padding: 10px;
+}
+
+.questions_table{
+    background: #e9f0f7;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+.questions_table:hover{
+    background: #d9e7f8;
+}
+
+#submit_test_button{
+    display: inline-block;
+    margin-left:95px;
+}
+
+.large_field{
+    margin-left: 10px;
+}
+.dialog_button{
+    display: inline-block;
+}
+
+.ui-dialog-titlebar-close{
+    display: none;
+}
+
+.ui-widget-content{
+    background: #f4f9fc;
+}
+
+.ui-accordion-header:hover{
+    cursor: default;
+}
+
+.test_definitions{
+    background: #e9f0f7;
+    margin-top: 0px;
+    margin-left: 40px;
+    margin-right: 50px;
+    padding: 20px;
+    text-align: center;
+}

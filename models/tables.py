@@ -13,9 +13,9 @@ db.define_table('classes',
     Field('teachers', 'list:string'),
     Field('students', 'list:string'),
     Field('test_ids', 'list:integer'),
+    Field('submitted_tests', 'blob'),
     Field('class_avg', 'double'),
     Field('grades', 'blob')
-
     )
 
 db.define_table('tests',
@@ -23,3 +23,11 @@ db.define_table('tests',
                 Field('name', 'string'),
                 Field('test_data', 'blob')
                 )
+
+db.define_table('test_submissions',
+                Field('test_taker', 'string'),
+                Field('class_id', 'string'),
+                Field('test_id', 'string'),
+                Field('answers', 'list:string'),
+                Field('grade', 'float'),
+)

@@ -92,7 +92,7 @@ function initSubmitButton() {
             test_name: testName,
             test_info: testInfo,
             questions: questionsArray
-        }
+        };
 
         postTest(testObject);
 

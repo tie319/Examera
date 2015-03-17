@@ -110,20 +110,66 @@ def new_test():
 
 
 def take_test():
-    creator = "schfiftysix@yahoo.com"
-    name = "This is a test"
-    query = db.tests.id > 0
-    query &= db.tests.creator == creator
-    query &= db.tests.name == name
+    # creator = "schfiftysix@yahoo.com"
+    # name = "This is a test"
+    # query = db.tests.id > 0
+    # query &= db.tests.creator == creator
+    # query &= db.tests.name == name
+
+    class_id = 5
+
+    query = db.tests.id == 3
 
     old_tests = db(query).count()
 
     test_data = "undefined"
+    test_id = "undefined"
     if old_tests > 0:
         mytest = db(query).select().first()
         test_unparsed = mytest.test_data
+        test_id = mytest.id
         test_data = ast.literal_eval(test_unparsed)
-    return dict(test_data=test_data)
+    return dict(test_data=test_data, test_id=test_id, class_id=class_id)
+
+
+def new_test_submission():
+    post_data = request.post_vars
+
+    for key in post_data.keys():
+        test_string = key
+
+    test_data = json.loads(test_string)
+
+    old_test = "undefined"
+
+    test_id = test_data['test_id']
+
+    class_id = test_data['class_id']
+
+    answers = test_data['questions']
+
+    test_taker = auth.user.email
+
+    db.test_submissions.insert(test_taker=test_taker, answers=answers, test_id=test_id, class_id=class_id)
+
+    # query = db.classes.id == class_id
+    #
+    # submitted_tests = db(query).select().first()
+    #
+    # submitted_tests_unparsed = submitted_tests.submitted_tests
+    #
+    # if submitted_tests_unparsed is None:
+    #     new_dict = dict(test_id=test_id, test_taker=test_taker, questions=questions)
+    #     submitted_array = [new_dict]
+    #
+    # else:
+    #     new_dict = dict(test_id=test_id, test_taker=test_taker, questions=questions)
+    #     submitted_array = submitted_tests_unparsed
+    #     submitted_array.append(new_dict)
+    #
+    # submitted_tests.update(submitted_tests=submitted_array)
+
+    return dict()
 
 
 def create_class():

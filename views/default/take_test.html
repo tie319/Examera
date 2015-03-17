@@ -1,42 +1,47 @@
-{{response.files.append(URL(r=request,c='static/js',f='create_test.js'))}}
+{{response.files.append(URL(r=request,c='static/js',f='take_test.js'))}}
 {{response.files.append(URL(r=request,c='static/js',f='jquery-ui.js'))}}
 {{response.files.append(URL(r=request,c='static/css',f='jquery-ui.css'))}}
 {{response.files.append(URL(r=request,c='static/css',f='jquery-ui.theme.css'))}}
 {{response.files.append(URL(r=request,c='static/js',f='jquery.js'))}}
-{{response.files.append(URL('static','css/create_test.css'))}}
+{{response.files.append(URL('static','css/take_test.css'))}}
+
 
 
 {{extend 'layout.html'}}
 <!DOCTYPE html>
 <html>
+
+<ul class="nav nav-tabs" role="navigation">
+      <li><a href="index">View Classes</a></li>
+      <li><a href="create_test">Create A Test</a></li>
+      <li><a href="create_class">Create A Class</a></li>
+	  <li><a href="test_list">View All Tests</a></li>
+    </ul>
+
 <head lang="en">
     <meta charset="UTF-8">
     <title>
-        Examera - Create A Test
+        Examera - Take A Test
     </title>
 
 
 </head>
 <body>
+
+
 {{block body}}
 <div id="dialog" title="Test submitted!" hidden="true">
     <span class="ui-helper-hidden-accessible"><input type="text"/></span>
     Return to index?
 </div>
-<div id="dialog2" title="Delete" hidden="true">
-    <span class="ui-helper-hidden-accessible"><input type="text"/></span>
-    Delete this question?
-</div>
+
+<div id="test_id" hidden="true">{{=test_id}}</div>
+<div id="class_id" hidden="true">{{=class_id}}</div>
 
 <div class="ui-accordion ui-widget ui-helper-reset">
-    <h2>
-        <a href="{{=URL('default', 'index')}}">
-            Home
-        </a>
-    </h2>
 
     <h1 style="text-align: center;margin-bottom:0px" class="ui-accordion-header ui-state-default ui-corner-top">
-        <span style="margin-right:50px;font-family:Helvetica">Create A Test</span>
+        <span style="margin-right:50px;font-family:Helvetica">Take Test</span>
     </h1>
 
     <form method="post" style="padding-left:100px"
@@ -89,12 +94,14 @@
 
                 </td>
                 <td id="questions_wrapper">
+                {{i = 0}}
                 {{for question in test_data['questions']:}}
+                    {{i+=1}}
                     <form>
                         <table id="questions_table_0" class="questions_table ui-corner-all">
                             <tr class="question_text_row">
                                 <td class="question_field question_text_label">
-                                    Question:
+                                    Question {{=i}}:
                                 </td>
                                 <td class="question_field question_text">
                                     <p>
@@ -145,10 +152,6 @@
             </tbody>
         </table>
         <p>
-            <button id="add_question_button" class="btn" type="button">
-                New Question
-            </button>
-
             <button id="submit_test_button" type="button">
                 Save Test
             </button>
