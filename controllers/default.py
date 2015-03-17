@@ -39,10 +39,37 @@ def create_test():
 
 
 def new_test():
-    import pdb
-    data = request.post_vars
+    post_data = request.post_vars
 
-    return dict(data=data)
+    for key in post_data.keys():
+        test_string = key
+
+    test_data = json.loads(test_string)
+
+    old_test = "undefined"
+
+    name = test_data['test_name']
+
+    creator = auth.user.email
+
+    query = db.tests.id > 0
+    query &= db.tests.creator == creator
+    query &= db.tests.name == name
+
+    old_tests = db(query).count()
+
+    if old_tests > 0:
+        old_test = db(query).select().first()
+
+    update = False
+    if old_test == "undefined":
+        db.tests.insert(name=name, creator=creator, test_data=test_data)
+    else:
+        old_test.update(test_data=test_data)
+        update = True
+
+    return dict(update=update)
+
 
 def create_class():
         # used for testing. deletes all data from tables
