@@ -1,5 +1,10 @@
 import test
+
 import json
+
+import uuid
+
+
 
 def index():
     #db.auth_user.drop()
@@ -56,9 +61,12 @@ def create_class():
     #form.add_button('Cancel', URL('default', 'index', args=[title]))
 
     if form.process().accepted:
+        new_class_token = uuid.uuid4()
+        response.flash = T(str(new_class_token))
         class_id = db.classes.insert(name=form.vars.class_name, info=form.vars.description,
                     start_date=form.vars.start_date, end_date=form.vars.end_date,
                     teachers=form.vars.teacher_emails, students=form.vars.student_emails)
+                    #class_token = new_class_token)
         
         redirect(URL('default', 'view_class', args=[class_id]))
 
@@ -86,12 +94,27 @@ def view_class():
 
     """
 
-    clase = db(db.classes.id==request.args(0)).select().first()
+    home_button = A('Home', _class='btn', _href=URL('default', 'index'))
 
-   # if cclass.contains(auth.user.email):
-    #    return dict(form=cclass.info) 
+    show_all = request.args(0) == 'all'
+    if show_all:
+        # view all classes
+        clase = SQLFORM.grid(db.classes,
+                             user_signature=False, deletable=False, csv=False, editable=False,
+                             details=False, create=False, searchable=False, sortable=False,
+                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
+        display_button = A('See My Classes', _class='btn', _href=('default', 'view_class'))
+    else:
+        # view only my enrolled classes
+        clase = SQLFORM.grid(db.classes.students.like("%"+auth.user.email+"%"),
+                             user_signature=False, deletable=False, csv=False, editable=False,
+                             details=False, create=False, searchable=False, sortable=False,
+                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
+        display_button = A('See all', _class='btn', _href=URL('default', 'view_class', args=['all']))
 
-    return dict(form = clase)
+    return dict(form = clase, display_button = display_button, home_button=home_button)
 
 
 def test_list():
