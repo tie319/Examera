@@ -28,25 +28,29 @@
 <body>
 <div class="ui-accordion ui-widget ui-helper-reset">
     <h1 style="text-align: center;margin-bottom:0px" class="ui-accordion-header ui-state-default ui-corner-top">
-        <span style="margin-right:50px;font-family:Helvetica">Select a Test to Take</span>
+        <span style="margin-right:50px;font-family:Helvetica">Tests From {{=class_name}}</span>
     </h1>
     <form method="post" class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data" action="#">
+    <table class="table table-striped">
+        <tr>
+            <td>Test Name</td>
+            <td>Score</td>
+            <td></td>
+        </tr>
         {{if test_id_list or test_name_list is IS_NOT_EMPTY:}}
-            {{for (test_name, test_id) in zip(test_name_list, test_id_list):}}
-            <div class="col-sm-6 col-md-3">
-                <div class="thumbnail tile tile-medium tile-orange">
-                    <a href="../take_test/{{=test_id}}/{{=class_id}}" >
-                        <h2>
-                        {{=test_name}}
-                        </h2>
-                    </a>
-                </div>
-            </div>
+            {{for (test_name, test_id, score) in zip(test_name_list, test_id_list, scores_list):}}
+                <tr>
+                    <td>{{=test_name}}</td>
+                    <td>{{=score}}%</td>
+                    <td><button> <a href="{{=URL('default','take_test', args=[test_id, class_id])}}">Begin Test!</a></button></td>
+                </tr>
             {{pass}}
         {{else:}}
-            No Tests Available for This Class.
+            <tr><td>No Tests Available for This Class.</td></tr>
         {{pass}}
+    </table>
     </form>
+
 </div>
 </body>
 </html>
