@@ -68,8 +68,8 @@ function initAddButton() {
 }
 
 function initSubmitButton() {
-    $('#submit_test_button').click(function () {
-
+    $('#submit_test_button').click(function (e) {
+        e.preventDefault();
         var testName = $('#test_name_input').val();
 
         var testInfo = $('#test_info_input').val();
@@ -112,8 +112,7 @@ function postTest(testObject) {
 
 
 function doPost(url, data) {
-    $.post(url, data, function (data) {
-        //alert("Test Added!");
+    $.post(url, data, function (postBack) {
         var dialogger =$("#dialog");
 
             dialogger.dialog(
