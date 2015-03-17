@@ -4,6 +4,7 @@ import json
 
 import uuid
 
+import ast
 
 
 def index():
@@ -15,7 +16,7 @@ def index():
         redirect(URL('default', 'login'))
     return dict()
 
-@auth.requires_login()  # eventually this will probably have to be requires_membership(class.teachers) or something
+@auth.requires_login()
 def create_test():
     """
     Test creation controller
@@ -69,6 +70,23 @@ def new_test():
         update = True
 
     return dict(update=update)
+
+
+def take_test():
+    creator = "schfiftysix@yahoo.com"
+    name = "This is a test"
+    query = db.tests.id > 0
+    query &= db.tests.creator == creator
+    query &= db.tests.name == name
+
+    old_tests = db(query).count()
+
+    test_data = "undefined"
+    if old_tests > 0:
+        mytest = db(query).select().first()
+        test_unparsed = mytest.test_data
+        test_data = ast.literal_eval(test_unparsed)
+    return dict(test_data=test_data)
 
 
 def create_class():
