@@ -1,5 +1,9 @@
 import test
+
+import json
+
 import uuid
+
 
 
 def index():
@@ -33,6 +37,12 @@ def create_test():
 
     return dict(form=form, questions=questions)
 
+
+def new_test():
+    import pdb
+    data = request.post_vars
+
+    return dict(data=data)
 
 def create_class():
         # used for testing. deletes all data from tables
