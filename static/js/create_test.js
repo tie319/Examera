@@ -105,7 +105,7 @@ function postTest(testObject) {
     //var data = $.toJSON(testObject);
     var data = JSON.stringify(testObject);
 
-    var url = "/Examera/default/change_test";
+    var url = "/Examera/default/new_test";
 
     doPost(url, data);
 }

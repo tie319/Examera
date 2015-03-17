@@ -148,6 +148,8 @@ def take_test():
 def new_test_submission():
     post_data = request.post_vars
 
+    test_string = "undefined"
+
     for key in post_data.keys():
         test_string = key
 
@@ -163,7 +165,7 @@ def new_test_submission():
 
     test_taker = auth.user.email
 
-    db.test_submissions.insert(test_taker=test_taker, answers=answers, test_id=test_id, class_id=class_id)
+    sub_id = db.test_submissions.insert(test_taker=test_taker, answers=answers, test_id=test_id, class_id=class_id)
 
     # query = db.classes.id == class_id
     #
@@ -182,7 +184,32 @@ def new_test_submission():
     #
     # submitted_tests.update(submitted_tests=submitted_array)
 
+    grade_sub(sub_id, test_id)
+
     return dict()
+
+
+def grade_sub(sub_id, test_id):
+    sub = db(db.test_submissions.id==sub_id).select().first()
+    test = db(db.tests.id==test_id).select().first()
+
+    test_data = ast.literal_eval(test['test_data'])
+
+    correct_list = []
+
+    for question in test_data['questions']:
+        correct_list += question['correct_answer']
+
+    num_ques = len(correct_list)
+
+    total_correct = 0
+    for i in range(0, num_ques):
+        if sub.answers[i] == correct_list[i]:
+            total_correct += 1
+
+    grade = float(total_correct/num_ques)
+    sub.update_record(grade=grade)
+    return
 
 
 def create_class():
