@@ -14,11 +14,11 @@
 <html>
 
 <!--Nav Bar-->
-    <ul class="nav navbar-inverse nav-tabs" role="navigation">
-      <li class="active"><a href="index">View Classes</a></li>
-      <li ><a href="create_test">Create A Test</a></li>
-      <li><a href="create_class">Create A Class</a></li>
-	  <li><a href="test_list">View All Tests</a></li>
+    <ul class="nav nav-tabs ui-corner-all" role="navigation">
+        <li class="active"><a href="{{=URL('default','index')}}">View Classes</a></li>
+        <li><a href="{{=URL('default','test_list')}}">View Tests</a></li>
+        <li ><a href="{{=URL('default','create_test')}}">Create A Test</a></li>
+        <li><a href="{{=URL('default','create_class')}}">Create A Class</a></li>
     </ul>
 
 <head lang="en">

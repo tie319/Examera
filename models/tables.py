@@ -13,7 +13,7 @@ db.define_table('classes',
     Field('teachers', 'list:string'),
     Field('students', 'list:string'),
     Field('test_ids', 'list:integer'),
-    Field('submitted_tests', 'blob'),
+    Field('test_names', 'list:string'),
     Field('class_avg', 'double'),
     Field('grades', 'blob')
     )

@@ -5,9 +5,22 @@
 {{response.files.append(URL(r=request,c='static/js',f='jquery.js'))}}
 {{response.files.append(URL('static','css/create_test.css'))}}
 
+<!--Bootstrap CSS-->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 {{extend 'layout.html'}}
 <!DOCTYPE html>
 <html>
+
+<!--Nav Bar-->
+    <ul class="nav nav-tabs ui-corner-all" role="navigation">
+      <li><a href="../index">View Classes</a></li>
+      <li><a href="../test_list">View Tests</a></li>
+      <li class="active"><a href="../create_test">Create A Test</a></li>
+      <li><a href="../create_class">Create A Class</a></li>
+    </ul>
+
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -17,7 +30,7 @@
     <h1 style="text-align: center;margin-bottom:0px" class="ui-accordion-header ui-state-default ui-corner-top">
         <span style="margin-right:50px;font-family:Helvetica">Edit A Class</span>
     </h1>
-    <form method="post" class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data" action="#">
+    <form method="post" style="padding-left:100px" class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data" action="#">
         {{=form}}
     </form>
 </div>
