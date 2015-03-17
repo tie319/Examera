@@ -12,6 +12,43 @@ def index():
     if auth.user:
         name = auth.user.first_name
         response.flash = T("Logged in as %s"%(name))
+        home_button = A('Home', _class='btn', _href=URL('default', 'index'))
+        classes_taught = ""
+
+        show_all = request.args(0) == 'all'
+        if show_all:
+            # view all classes
+            clase = SQLFORM.grid(db.classes,
+                                 user_signature=False, deletable=False, csv=False, editable=False,
+                                 details=False, create=False, sortable=False,
+                                 fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                         db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
+            clase.element('.web2py_counter',replace=None)
+            display_button = A('See My Classes', _class='btn', _href=('default', 'view_class'))
+        else:
+            # view only my enrolled classes
+            def edit_button(row):
+                b = ''
+                b = A('Edit', _class='btn', _href=URL('default', 'edit_class', args=[row.id], user_signature=True))
+                return b
+            links = [dict(header='', body=edit_button)]
+
+            clase = SQLFORM.grid(db.classes.students.like("%"+auth.user.email+"%"),
+                                 user_signature=False, deletable=False, csv=False, editable=False,
+                                 details=False, create=False, searchable=False, sortable=False,
+                                 fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                         db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
+            clase.element('.web2py_counter',replace=None)
+            classes_taught = SQLFORM.grid(db.classes.teachers.like("%"+auth.user.email+"%"),
+                                 user_signature=False, deletable=False, csv=False, editable=False,
+                                 details=False, create=False, searchable=False, sortable=False,
+                                 links=links,
+                                 fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
+                                         db.classes.students, db.classes.test_ids, db.classes.class_avg])
+            classes_taught.element('.web2py_counter',replace=None)
+            display_button = A('See All Classes', _class='btn', _href=URL('default', 'view_class', args=['all']))
+
+        return dict(classes_taught = classes_taught, form = clase, display_button = display_button, home_button=home_button)
     else:
         redirect(URL('default', 'login'))
     return dict()
@@ -108,9 +145,12 @@ def create_class():
     if form.process().accepted:
         new_class_token = uuid.uuid4()
         response.flash = T(str(new_class_token))
+        teach_list = []
+        teach_list.append(form.vars.teacher_emails)
+        teach_list.append(auth.user.email)
         class_id = db.classes.insert(name=form.vars.class_name, info=form.vars.description,
                     start_date=form.vars.start_date, end_date=form.vars.end_date,
-                    teachers=form.vars.teacher_emails, students=form.vars.student_emails)
+                    teachers=teach_list, students=form.vars.student_emails)
                     #class_token = new_class_token)
         
         redirect(URL('default', 'view_class', args=[class_id]))
@@ -124,43 +164,51 @@ def create_class():
 def browse_classes():
     return dict()
 
+@auth.requires_login()
+def edit_class():
+    clase = db(db.classes.id==request.args(0)).select().first()
 
+    if auth.user.email in clase.teachers:
+        form = SQLFORM.factory(
+                    Field('class_name', default=clase.name, requires=IS_NOT_EMPTY()),
+                    Field('description', 'text', default=clase.info, requires=IS_NOT_EMPTY()),
+                    Field('start_date', 'date', default=clase.start_date, requires=IS_NOT_EMPTY()),
+                    Field('end_date', 'date', default=clase.end_date, requires=IS_NOT_EMPTY()),
+                    Field('teacher_emails', default=clase.teachers),
+                    Field('student_emails', default=clase.students)
+
+                    )
+        if form.process().accepted:
+            clase.update_record(name=form.vars.class_name, info=form.vars.description,
+                    start_date=form.vars.start_date, end_date=form.vars.end_date,
+                    teachers=form.vars.teacher_emails, students=form.vars.student_emails)
+
+            redirect(URL('default', 'view_class', args=[class_id]))
+    return dict(form=form)
 
 @auth.requires_login()
-def view_class():
-    """
-    if user == teacher_emails
-    info
-    Tests
-    students
+def edit_class():
+    clase = db(db.classes.id==request.args(0)).select().first()
 
-    add/drop students
-    create test
+    if auth.user.email in clase.teachers:
+        form = SQLFORM.factory(
+                    Field('class_name', default=clase.name, requires=IS_NOT_EMPTY()),
+                    Field('description', 'text', default=clase.info, requires=IS_NOT_EMPTY()),
+                    Field('start_date', 'date', default=clase.start_date, requires=IS_NOT_EMPTY()),
+                    Field('end_date', 'date', default=clase.end_date, requires=IS_NOT_EMPTY()),
+                    Field('teacher_emails', 'list:string'),
+                    Field('student_emails', 'list:string')
+                    
+                    )
+        if form.process().accepted:
+            clase.update_record(name=form.vars.class_name, info=form.vars.description,
+                    start_date=form.vars.start_date, end_date=form.vars.end_date,
+                    teachers=form.vars.teacher_emails, students=form.vars.student_emails)
 
-    """
+            redirect(URL('default', 'view_class', args=[class_id]))
 
-    home_button = A('Home', _class='btn', _href=URL('default', 'index'))
-
-    show_all = request.args(0) == 'all'
-    if show_all:
-        # view all classes
-        clase = SQLFORM.grid(db.classes,
-                             user_signature=False, deletable=False, csv=False, editable=False,
-                             details=False, create=False, searchable=False, sortable=False,
-                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
-                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
-        display_button = A('See My Classes', _class='btn', _href=('default', 'view_class'))
-    else:
-        # view only my enrolled classes
-        clase = SQLFORM.grid(db.classes.students.like("%"+auth.user.email+"%"),
-                             user_signature=False, deletable=False, csv=False, editable=False,
-                             details=False, create=False, searchable=False, sortable=False,
-                             fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
-                                     db.classes.teachers, db.classes.test_ids, db.classes.class_avg])
-        display_button = A('See all', _class='btn', _href=URL('default', 'view_class', args=['all']))
-
-    return dict(form = clase, display_button = display_button, home_button=home_button)
-
+        return dict(form=form)
+    return dict(form=form)
 
 def test_list():
     """
