@@ -106,6 +106,29 @@ def view_class():
 
     return dict(form = clase, display_button = display_button, home_button=home_button)
 
+@auth.requires_login()
+def edit_class():
+    clase = db(db.classes.id==request.args(0)).select().first()
+
+    if auth.user.email in clase.teachers:
+        form = SQLFORM.factory(
+                    Field('class_name', default=clase.name, requires=IS_NOT_EMPTY()),
+                    Field('description', 'text', default=clase.info, requires=IS_NOT_EMPTY()),
+                    Field('start_date', 'date', default=clase.start_date, requires=IS_NOT_EMPTY()),
+                    Field('end_date', 'date', default=clase.end_date, requires=IS_NOT_EMPTY()),
+                    Field('teacher_emails', 'list:string'),
+                    Field('student_emails', 'list:string')
+                    
+                    )
+        if form.process().accepted:
+            clase.update_record(name=form.vars.class_name, info=form.vars.description,
+                    start_date=form.vars.start_date, end_date=form.vars.end_date,
+                    teachers=form.vars.teacher_emails, students=form.vars.student_emails)
+
+            redirect(URL('default', 'view_class', args=[class_id]))
+
+        return dict(form=form)
+    return dict(form=form)
 
 def test_list():
     """
