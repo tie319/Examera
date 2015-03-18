@@ -5,6 +5,7 @@
 var $;
 var questionWrapper;
 var url;
+var post_url;
 function init() {
     $ = jQuery.noConflict();
 }
@@ -21,6 +22,8 @@ $(document).ready(function () {
     initSubmitButton();
 
     initRemoveButtons();
+
+    post_url = $('#post_url').text();
 
 });
 
@@ -107,7 +110,7 @@ function postTest(testObject) {
     //var data = $.toJSON(testObject);
     var data = JSON.stringify(testObject);
 
-    var url = "/Examera/default/new_test";
+    var url = post_url;
 
     doPost(url, data);
 }

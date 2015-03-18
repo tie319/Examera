@@ -14,8 +14,8 @@
 <ul class="nav nav-tabs" role="navigation">
         <li><a href="{{=URL('default','index')}}">View Classes</a></li>
         <li><a href="{{=URL('default','test_list')}}">View Tests</a></li>
-        <li><a href="{{=URL('default','create_test')}}">Create A Test</a></li>
-        <li><a href="{{=URL('default','create_class')}}">Create A Class</a></li>
+        <li><a href="{{=URL('default','create_test')}}">Create Test</a></li>
+        <li><a href="{{=URL('default','create_class')}}">Create Class</a></li>
     </ul>
 
 <head lang="en">
@@ -37,6 +37,7 @@
 
 <div id="test_id" hidden="true">{{=test_id}}</div>
 <div id="class_id" hidden="true">{{=class_id}}</div>
+<div id="post_url" hidden="true">{{=post_url}}</div>
 
 <div class="ui-accordion ui-widget ui-helper-reset">
 
@@ -47,6 +48,11 @@
     <form method="post" style="padding-left:100px"
           class="ui-widget-content ui-corner-bottom ui-accordion-content-active" enctype="multipart/form-data"
           action="#">
+        {{if not load_page:}}
+        <h2 style="text-align: center; font-family: sans-serif">
+            Seems like this test has been deleted!
+        </h2>
+        {{else:}}
         <table>
             <tbody>
             <tr id="test_name">
@@ -156,6 +162,7 @@
                 Save Test
             </button>
         </p>
+        {{pass}}
     </form>
 </div>
 

@@ -68,6 +68,7 @@ def index():
         redirect(URL('default', 'login'))
     return dict()
 
+
 def test_page():
     class_id = request.args(0)
     selected_class = db(db.classes.id == class_id).select().first()
@@ -78,13 +79,14 @@ def test_page():
     query &= db.test_submissions.class_id == class_id
     scores = db(query).select()
     scores_list = []
-    for test_id in test_id_list:
-        this_score = 0.0
-        for score in scores:
-            if test_id == int(score.test_id):
-                if score.grade > this_score:
-                    this_score = score.grade
-        scores_list.append(this_score*100)
+    if test_id_list is not None:
+        for test_id in test_id_list:
+            this_score = 0.0
+            for score in scores:
+                if test_id == int(score.test_id):
+                    if score.grade > this_score:
+                        this_score = score.grade
+            scores_list.append(this_score*100)
 
     return dict(test_name_list=test_name_list, test_id_list=test_id_list, class_id=class_id, class_name=class_name, scores_list=scores_list)
 
@@ -100,6 +102,8 @@ def create_test():
     :return:
     """
 
+    post_url = URL('default', 'new_test')
+
     questions = {}
 
     form = SQLFORM.factory(
@@ -107,8 +111,17 @@ def create_test():
         Field('info', requires=IS_NOT_EMPTY()),
     )
 
+    return dict(form=form, questions=questions, post_url=post_url)
 
-    return dict(form=form, questions=questions)
+
+def edit_test():
+    post_url = URL('default', 'new_test')
+    test_id = request.args(0)
+    mytest = db(db.tests.id == test_id).select().first()
+    test_name = mytest.name
+    test_unparsed = mytest.test_data
+    test_data = ast.literal_eval(test_unparsed)
+    return dict(test_data=test_data, test_name=test_name, post_url=post_url)
 
 
 def new_test():
@@ -138,7 +151,7 @@ def new_test():
     if old_test == "undefined":
         db.tests.insert(name=name, creator=creator, test_data=test_data)
     else:
-        old_test.update(test_data=test_data)
+        old_test.update_record(test_data=test_data)
         update = True
 
     return dict(update=update)
@@ -148,18 +161,22 @@ def take_test():
 
     class_id = request.args(1)
 
+    post_url = URL('default', 'new_test_submission')
+
     query = db.tests.id == request.args(0)
 
     old_tests = db(query).count()
 
     test_data = "undefined"
     test_id = "undefined"
+    load_page = False
     if old_tests > 0:
+        load_page = True
         mytest = db(query).select().first()
         test_unparsed = mytest.test_data
         test_id = mytest.id
         test_data = ast.literal_eval(test_unparsed)
-    return dict(test_data=test_data, test_id=test_id, class_id=class_id)
+    return dict(test_data=test_data, test_id=test_id, class_id=class_id, post_url=post_url, load_page=load_page)
 
 
 def new_test_submission():
@@ -302,13 +319,6 @@ def test_list():
     form.element('.web2py_counter',replace=None)
     return dict(form=form)
 
-def edit_test():
-    test_id = request.args(0)
-    mytest = db(db.tests.id == test_id).select().first()
-    test_name = mytest.name
-    test_unparsed = mytest.test_data
-    test_data = ast.literal_eval(test_unparsed)
-    return dict(test_data=test_data, test_name=test_name)
 
 def add_test_to_class():
     test_id = request.args(0)

@@ -9,6 +9,7 @@ var $;
 var questionWrapper;
 var test_id;
 var class_id;
+var post_url;
 function init() {
     $ = jQuery.noConflict();
 }
@@ -22,6 +23,7 @@ $(document).ready(function () {
 
     test_id = $('#test_id').text();
     class_id = $('#class_id').text();
+    post_url = $('#post_url').text();
 
     initSubmitButton();
 
@@ -60,7 +62,7 @@ function postTest(testObject) {
     //var data = $.toJSON(testObject);
     var data = JSON.stringify(testObject);
 
-    var url = "/Examera/default/new_test_submission";
+    var url = post_url;
 
     doPost(url, data);
 }
