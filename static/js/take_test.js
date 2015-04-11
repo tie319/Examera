@@ -77,7 +77,7 @@ function doPost(url, data) {
                 buttons: [{
                     text: "Ok", class: 'dialog_button', click: function () {
                         $(this).dialog("close");
-                        window.location.replace("/Examera/default/index");
+                        window.location.replace("/Examera/default/test_page/" + class_id);
                     }
                 },
                 {

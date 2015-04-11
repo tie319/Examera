@@ -8,11 +8,8 @@ import ast
 
 
 def index():
-    #db.auth_user.drop()
+    #db.tests.drop()
     if auth.user:
-        name = auth.user.first_name
-        #response.flash = T("Logged in as %s"%(name))
-        home_button = A('Home', _class='btn', _href=URL('default'))
         classes_taught = ""
 
         add = request.args(0) == 'add'
@@ -52,18 +49,18 @@ def index():
                                  details=False, create=False, searchable=False, sortable=False,
                                  links=links_student, maxtextlength=1000,
                                  fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
-                                         db.classes.teachers, db.classes.class_avg])
+                                         db.classes.teachers])
             clase.element('.web2py_counter',replace=None)
             classes_taught = SQLFORM.grid(db.classes.teachers.like("%"+auth.user.email+"%"),
                                  user_signature=False, deletable=False, csv=False, editable=False,
                                  details=False, create=False, searchable=False, sortable=False,
                                  links=links, maxtextlength=1000,
                                  fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
-                                         db.classes.students, db.classes.class_avg])
+                                         db.classes.students])
             classes_taught.element('.web2py_counter',replace=None)
             display_button = A('See All Classes', _class='btn', _href=URL('index', args=['all']))
 
-        return dict(classes_taught = classes_taught, form = clase, display_button = display_button, home_button=home_button)
+        return dict(classes_taught = classes_taught, form = clase, display_button = display_button)
     else:
         redirect(URL('default', 'login'))
     return dict()
@@ -330,9 +327,9 @@ def add_test_to_class():
     classes_taught = SQLFORM.grid(db.classes.teachers.like("%"+auth.user.email+"%"),
                                  user_signature=False, deletable=False, csv=False, editable=False,
                                  details=False, create=False, searchable=False, sortable=False,
-                                 links=links,
+                                 links=links, maxtextlength=1000,
                                  fields=[db.classes.name, db.classes.info, db.classes.start_date, db.classes.end_date,
-                                         db.classes.students, db.classes.test_names, db.classes.test_ids])
+                                         db.classes.test_names])
     classes_taught.element('.web2py_counter', replace=None)
     return dict(classes_taught=classes_taught)
 
@@ -358,16 +355,15 @@ def backend_add_test():
 
 # login page
 def login():
-    response.flash = T("Login Page")
+    message = "log in as 'tyler@gmail.com' with password 'tyler' to demo this site"
     form = auth.login()
     register_button = A('Register', _class='btn', _href=URL('default', 'register'))
-    return dict(form=form, register_button=register_button)
+    return dict(form=form, register_button=register_button, message = message)
 
 
 # register page
 def register():
-    response.flash = T("Register Page")
-    form=auth.register()
+    form = auth.register()
     back_button = A('Back', _class='btn', _href=URL('default', 'login'))
     return dict(form=form, back_button=back_button)
 
